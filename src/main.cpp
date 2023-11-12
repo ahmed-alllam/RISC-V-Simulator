@@ -3,12 +3,13 @@
 #include <vector>
 
 #include "memory.h"
-#include "register.h"
-#include "instruction.h"
+#include "registers.h"
+#include "instructions.h"
 
 using namespace std;
 
 uint32_t pc = 0x0;
+vector<Register> registers;
 
 int main() {
     cout << "Hello and Welcome to our RISC-V Simulator!" << endl;
@@ -35,6 +36,8 @@ int main() {
     cin >> startAddr;
 
     pc = startAddr;
+
+    registers_init();
 
 
     // ToDo: while loop to execute instructions one by one
