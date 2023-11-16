@@ -5,6 +5,10 @@ Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 
+.vscode
+.vscode/
+vscode
+
 # Dump file
 *.stackdump
 

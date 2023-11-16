@@ -11,9 +11,14 @@ using namespace std;
 class Instruction {
 protected:
     string opcode;
+    string asm_line;
 
 public:
-    Instruction(string op) : opcode(op) {}
+    Instruction(string op, string line) : opcode(op), asm_line(line) {}
+
+    void print() {
+        cout << asm_line << endl;
+    }
 
     virtual void exec() = 0;
     virtual string get_machine_code() = 0;
@@ -23,9 +28,9 @@ class R_Instruction : public Instruction {
 private:
     string funct3;
     string funct7;
-    uint32_t rd;
-    uint32_t rs1;
-    uint32_t rs2;
+    uint8_t rd;
+    uint8_t rs1;
+    uint8_t rs2;
 
     void exec_add();
     void exec_sub();
@@ -39,91 +44,110 @@ private:
     void exec_and();
 
 public:
-    R_Instruction(string op, string f3, string f7, uint32_t rd, uint32_t rs1, uint32_t rs2) : Instruction(op), funct3(f3), funct7(f7), rd(rd), rs1(rs1), rs2(rs2) {}
+    R_Instruction(string op, string line, string f3, string f7, uint8_t rd, uint8_t rs1, uint8_t rs2) : Instruction(op, line), funct3(f3), funct7(f7), rd(rd), rs1(rs1), rs2(rs2) {}
 
     void exec() override;
+    string get_machine_code() override;
+
+    static bool is_r_instruction(string op);
+    static R_Instruction* parse_r_instruction(string line);
 };
 
-class I_Instruction : public Instruction {
-private:
-    string funct3;
-    uint32_t rd;
-    uint32_t rs1;
-    int32_t imm;
+// class I_Instruction : public Instruction {
+// private:
+//     string funct3;
+//     uint8_t rd;
+//     uint8_t rs1;
+//     int32_t imm;
 
-    void exec_addi();
-    void exec_slti();
-    void exec_sltiu();
-    void exec_xori();
-    void exec_ori();
-    void exec_andi();
-    void exec_slli();
-    void exec_srli();
-    void exec_srai();
-    void exec_lb();
-    void exec_lh();
-    void exec_lw();
-    void exec_lbu();
-    void exec_lhu();
-    void exec_jalr();
-    void exec_jal();
+//     void exec_addi();
+//     void exec_slti();
+//     void exec_sltiu();
+//     void exec_xori();
+//     void exec_ori();
+//     void exec_andi();
+//     void exec_slli();
+//     void exec_srli();
+//     void exec_srai();
+//     void exec_lb();
+//     void exec_lh();
+//     void exec_lw();
+//     void exec_lbu();
+//     void exec_lhu();
+//     void exec_jalr();
+//     void exec_jal();
 
-public:
-    I_Instruction(string op, string f3, uint32_t rd, uint32_t rs1, int32_t imm) : Instruction(op), funct3(f3), rd(rd), rs1(rs1), imm(imm) {}
+// public:
+//     I_Instruction(string op, string line, string f3, uint8_t rd, uint8_t rs1, int32_t imm) : Instruction(op, line), funct3(f3), rd(rd), rs1(rs1), imm(imm) {}
 
-    void exec() override;
-};
+//     void exec() override;
 
-class S_Instruction : public Instruction {
-private:
-    string funct3;
-    uint32_t rs1;
-    uint32_t rs2;
-    int32_t imm;
+//     static bool is_i_instruction(string op);
+//     static I_Instruction* parse_i_instruction(string line);
+// };
 
-    void exec_sb();
-    void exec_sh();
-    void exec_sw();
+// class S_Instruction : public Instruction {
+// private:
+//     string funct3;
+//     uint8_t rs1;
+//     uint8_t rs2;
+//     int32_t imm;
 
-public:
-    S_Instruction(string op, string f3, uint32_t rs1, uint32_t rs2, int32_t imm) : Instruction(op), funct3(f3), rs1(rs1), rs2(rs2), imm(imm) {}
+//     void exec_sb();
+//     void exec_sh();
+//     void exec_sw();
 
-    void exec() override;
-};
+// public:
+//     S_Instruction(string op, string line, string f3, uint8_t rs1, uint8_t rs2, int32_t imm) : Instruction(op, line), funct3(f3), rs1(rs1), rs2(rs2), imm(imm) {}
 
-class B_Instruction : public Instruction {
-private:
-    string funct3;
-    uint32_t rs1;
-    uint32_t rs2;
-    int32_t imm;
+//     void exec() override;
 
-    void exec_beq();
-    void exec_bne();
-    void exec_blt();
-    void exec_bge();
-    void exec_bltu();
-    void exec_bgeu();
+//     static bool is_s_instruction(string op);
+//     static S_Instruction* parse_s_instruction(string line);
+// };
 
-public:
-    B_Instruction(string op, string f3, uint32_t rs1, uint32_t rs2, int32_t imm) : Instruction(op), funct3(f3), rs1(rs1), rs2(rs2), imm(imm) {}
+// class B_Instruction : public Instruction {
+// private:
+//     string funct3;
+//     uint8_t rs1;
+//     uint8_t rs2;
+//     int32_t imm;
 
-    void exec() override;
-};
+//     void exec_beq();
+//     void exec_bne();
+//     void exec_blt();
+//     void exec_bge();
+//     void exec_bltu();
+//     void exec_bgeu();
 
-class U_Instruction : public Instruction {
-private:
-    uint32_t rd;
-    int32_t imm;
+// public:
+//     B_Instruction(string op, string line, string f3, uint8_t rs1, uint8_t rs2, int32_t imm) : Instruction(op, line), funct3(f3), rs1(rs1), rs2(rs2), imm(imm) {}
 
-    void exec_lui();
-    void exec_auipc();
+//     void exec() override;
 
-public:
-    U_Instruction(string op, uint32_t rd, int32_t imm) : Instruction(op), rd(rd), imm(imm) {}
+//     static bool is_b_instruction(string op);
+//     static B_Instruction* parse_b_instruction(string line);
+// };
 
-    void exec() override;
-};
+// class U_Instruction : public Instruction {
+// private:
+//     uint8_t rd;
+//     int32_t imm;
 
+//     void exec_lui();
+//     void exec_auipc();
+
+// public:
+//     U_Instruction(string op, string line, uint8_t rd, int32_t imm) : Instruction(op, line), rd(rd), imm(imm) {}
+
+//     void exec() override;
+
+//     static bool is_u_instruction(string op);
+//     static U_Instruction* parse_u_instruction(string line);
+// };
+
+void instructions_init(ifstream &asmfile);
+
+extern vector<Instruction*> instructions;
 
 #endif // INSTRUCTIONS_H

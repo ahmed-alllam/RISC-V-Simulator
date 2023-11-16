@@ -1,4 +1,6 @@
 #include "registers.h"
+#include "instructions.h"
+#include "memory.h"
 
 void registers_init() {
     // source: https://en.wikichip.org/wiki/risc-v/registers
@@ -41,4 +43,29 @@ void registers_print() {
     for (int i = 0; i < registers.size(); i++) {
         registers[i].print();
     }
+}
+
+Register* get_register_by_name(string name) {
+    name.erase(name.find_last_not_of(' ') + 1);
+    name.erase(0, name.find_first_not_of(' '));
+
+    for (int i = 0; i < registers.size(); i++) {
+        if (registers[i].get_name() == name || registers[i].get_ABI_name() == name) {
+            return &registers[i];
+        }
+    }
+
+    cout << "Error: Invalid register name" << endl;
+    exit(1);
+}
+
+Register* get_register_by_binary(uint8_t binary) {
+    for (int i = 0; i < registers.size(); i++) {
+        if (registers[i].get_name_in_binary() == binary) {
+            return &registers[i];
+        }
+    }
+
+    cout << "Error: Invalid register binary" << endl;
+    exit(1);
 }
