@@ -87,25 +87,26 @@ public:
 //     static I_Instruction* parse_i_instruction(string line);
 // };
 
-// class S_Instruction : public Instruction {
-// private:
-//     string funct3;
-//     uint8_t rs1;
-//     uint8_t rs2;
-//     int32_t imm;
+class S_Instruction : public Instruction {
+private:
+    string funct3;
+    uint8_t rs1;
+    uint8_t rs2;
+    int32_t imm;
 
-//     void exec_sb();
-//     void exec_sh();
-//     void exec_sw();
+    void exec_sb();
+    void exec_sh();
+    void exec_sw();
 
-// public:
-//     S_Instruction(string op, string line, string f3, uint8_t rs1, uint8_t rs2, int32_t imm) : Instruction(op, line), funct3(f3), rs1(rs1), rs2(rs2), imm(imm) {}
+public:
+    S_Instruction(string op, string line, string f3, uint8_t rs1, uint8_t rs2, int32_t imm) : Instruction(op, line), funct3(f3), rs1(rs1), rs2(rs2), imm(imm) {}
 
-//     void exec() override;
+    void exec() override;
+    string get_machine_code() override;
 
-//     static bool is_s_instruction(string op);
-//     static S_Instruction* parse_s_instruction(string line);
-// };
+    static bool is_s_instruction(string op);
+    static S_Instruction* parse_s_instruction(string line);
+};
 
 // class B_Instruction : public Instruction {
 // private:

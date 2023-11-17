@@ -117,8 +117,13 @@ void R_Instruction::exec()
 }
 
 string R_Instruction::get_machine_code() {
-    return funct7 + to_string(rs2) + to_string(rs1) + funct3 + to_string(rd) + opcode;
+    string rs1_bin = bitset<5>(rs1).to_string();
+    string rs2_bin = bitset<5>(rs2).to_string();
+    string rd_bin = bitset<5>(rd).to_string();
+
+    return funct7 + rs2_bin + rs1_bin + funct3 + rd_bin + opcode;
 }
+
 
 bool R_Instruction::is_r_instruction(string op)
 {

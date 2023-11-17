@@ -8,7 +8,7 @@
 
 using namespace std;
 
-extern map<uint32_t, uint32_t> memory; 
+extern map<uint32_t, uint8_t> memory; 
 
 void memory_init(ifstream &memfile);
 

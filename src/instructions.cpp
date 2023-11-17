@@ -37,9 +37,11 @@ void instructions_init(ifstream &asmfile)
             }
             // else if (I_Instruction::is_i_instruction(opcode)) {
             //     instructions.push_back(I_Instruction::parse_i_instruction(line));
-            // } else if (S_Instruction::is_s_instruction(opcode)) {
-            //     instructions.push_back(S_Instruction::parse_s_instruction(line));
-            // } else if (B_Instruction::is_b_instruction(opcode)) {
+            // } 
+            else if (S_Instruction::is_s_instruction(opcode)) {
+                instructions.push_back(S_Instruction::parse_s_instruction(line));
+            }
+            // else if (B_Instruction::is_b_instruction(opcode)) {
             //     instructions.push_back(B_Instruction::parse_b_instruction(line));
             // } else if (U_Instruction::is_u_instruction(opcode)) {
             //     instructions.push_back(U_Instruction::parse_u_instruction(line));

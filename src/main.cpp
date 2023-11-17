@@ -13,7 +13,7 @@ uint32_t pc = 0x0;
 vector<Register> registers;
 vector<Instruction*> instructions;
 map<string, uint32_t> labels;
-map<uint32_t, uint32_t> memory;
+map<uint32_t, uint8_t> memory;
 
 int main() {
     cout << "Hello and Welcome to our RISC-V Simulator!" << endl;
@@ -56,6 +56,9 @@ int main() {
         cout << "Program Counter now at: " << pc << endl;
         cout << "Registers: " << endl;
         registers_print();
+
+        cout << "Memory: " << endl;
+        memory_print();
     }
 
     // Todo: Add option to print machine code of instructions
