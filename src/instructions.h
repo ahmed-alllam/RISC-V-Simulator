@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -149,5 +150,6 @@ public:
 void instructions_init(ifstream &asmfile);
 
 extern vector<Instruction*> instructions;
+extern map<string, uint32_t> labels;
 
 #endif // INSTRUCTIONS_H

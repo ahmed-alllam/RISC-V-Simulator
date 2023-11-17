@@ -61,6 +61,13 @@ void R_Instruction::exec_and()
 
 void R_Instruction::exec()
 {
+    pc += 4;
+
+    if (rd == 0)
+    {
+        return;
+    }
+
     if (funct3 == "000")
     {
         if (funct7 == "0000000")
@@ -120,7 +127,7 @@ bool R_Instruction::is_r_instruction(string op)
 
 R_Instruction* R_Instruction::parse_r_instruction(string line)
 {
-    string original_line = line;
+    string original_line = line.substr(0, line.find('#')); // remove comments
 
     string opcode = line.substr(0, line.find(' '));
     line = line.substr(line.find(' ') + 1);
@@ -133,7 +140,7 @@ R_Instruction* R_Instruction::parse_r_instruction(string line)
     line = line.substr(line.find(',') + 1);
     uint8_t rs1 = get_register_by_name(rs1_str)->get_name_in_binary();
 
-    string rs2_str = line.substr(0, line.find('\n'));
+    string rs2_str = line.substr(0, line.find('\n')).substr(0, line.find('#')); // remove comments
     uint8_t rs2 = get_register_by_name(rs2_str)->get_name_in_binary();
 
     string funct3;
