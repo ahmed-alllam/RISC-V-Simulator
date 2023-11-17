@@ -4,11 +4,14 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
+#include <map>
 
 using namespace std;
 
+extern map<uint32_t, uint32_t> memory; 
+
 void memory_init(ifstream &memfile);
 
+void memory_print();
 
 #endif // MEMORY_H

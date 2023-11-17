@@ -13,6 +13,7 @@ uint32_t pc = 0x0;
 vector<Register> registers;
 vector<Instruction*> instructions;
 map<string, uint32_t> labels;
+map<uint32_t, uint32_t> memory;
 
 int main() {
     cout << "Hello and Welcome to our RISC-V Simulator!" << endl;
