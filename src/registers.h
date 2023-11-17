@@ -52,6 +52,7 @@ Register* get_register_by_name(string name);
 
 Register* get_register_by_binary(uint8_t binary);
 
+extern uint32_t startAddr;
 extern uint32_t pc;
 extern vector<Register> registers;
 

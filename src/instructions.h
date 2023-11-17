@@ -108,28 +108,32 @@ public:
     static S_Instruction* parse_s_instruction(string line);
 };
 
-// class B_Instruction : public Instruction {
-// private:
-//     string funct3;
-//     uint8_t rs1;
-//     uint8_t rs2;
-//     int32_t imm;
+class B_Instruction : public Instruction {
+private:
+    string funct3;
+    uint8_t rs1;
+    uint8_t rs2;
+    int32_t imm;
+    string label;
 
-//     void exec_beq();
-//     void exec_bne();
-//     void exec_blt();
-//     void exec_bge();
-//     void exec_bltu();
-//     void exec_bgeu();
+    void exec_beq();
+    void exec_bne();
+    void exec_blt();
+    void exec_bge();
+    void exec_bltu();
+    void exec_bgeu();
 
-// public:
-//     B_Instruction(string op, string line, string f3, uint8_t rs1, uint8_t rs2, int32_t imm) : Instruction(op, line), funct3(f3), rs1(rs1), rs2(rs2), imm(imm) {}
+public:
+    B_Instruction(string op, string line, string f3, uint8_t rs1, uint8_t rs2, int32_t imm, string label) : Instruction(op, line), funct3(f3), rs1(rs1), rs2(rs2), imm(imm), label(label) {}
 
-//     void exec() override;
+    void exec() override;
+    string get_machine_code() override;
 
-//     static bool is_b_instruction(string op);
-//     static B_Instruction* parse_b_instruction(string line);
-// };
+    void label_to_imm();
+
+    static bool is_b_instruction(string op);
+    static B_Instruction* parse_b_instruction(string line);
+};
 
 // class U_Instruction : public Instruction {
 // private:

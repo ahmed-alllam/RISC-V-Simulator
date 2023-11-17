@@ -9,6 +9,7 @@
 
 using namespace std;
 
+uint32_t startAddr = 0x0;
 uint32_t pc = 0x0;
 vector<Register> registers;
 vector<Instruction*> instructions;
@@ -38,7 +39,6 @@ int main() {
     }
 
     cout << "Please enter the starting address of the program: ";
-    uint32_t startAddr;
     cin >> startAddr; // TODO: check if address is valid
 
     pc = startAddr;
