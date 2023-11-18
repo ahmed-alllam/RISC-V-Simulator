@@ -23,23 +23,39 @@ int main() {
 
     cout << "Please enter the path of the .asm file you would like to run: ";
     string filename;
-    cin >> filename; // TODO: check if file exists
+    cin >> filename;
 
     ifstream asmfile;
     asmfile.open(filename);
 
+    if (!asmfile.is_open() || asmfile.fail()) {
+        cout << "Invalid asm file path. Exiting..." << endl;
+        return 1;
+    }
+
     cout << "Please enter the path of the memory file, or enter 'none' if you do not have one: ";
     string memfilePath;
-    cin >> memfilePath; // TODO: check if file exists
+    cin >> memfilePath;
 
     if (memfilePath != "none") {
         ifstream memfile;
         memfile.open(memfilePath);
+
+        if (!memfile.is_open() || memfile.fail()) {
+            cout << "Invalid memory file path. Exiting..." << endl;
+            return 1;
+        }
+
         memory_init(memfile);
     }
 
     cout << "Please enter the starting address of the program: ";
-    cin >> startAddr; // TODO: check if address is valid
+    cin >> startAddr;
+
+    if(startAddr > 0x10000000) {
+        cout << "Invalid starting address (too large). Exiting..." << endl;
+        return 1;
+    }
 
     pc = startAddr;
 
