@@ -40,9 +40,17 @@ void registers_init() {
 }
 
 void registers_print() {
+    cout << "Registers: " << endl;
+
+    cout << "Name   Value (dec) (hex) (binary)" << endl;
+
     for (int i = 0; i < registers.size(); i++) {
         registers[i].print();
     }
+}
+
+void PC_print() {
+    cout << "Program Counter at: " << pc << "   0x" << decimal_to_hex(pc) << "   0b" << decimal_to_binary(pc, 32) << endl;
 }
 
 Register* get_register_by_name(string name) {

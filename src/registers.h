@@ -7,6 +7,8 @@
 #include <vector>
 #include <bitset>
 
+#include "utils.h"
+
 using namespace std;
 
 class Register {
@@ -40,13 +42,15 @@ public:
     }
 
     void print() {
-        cout << name << ": " << value << endl;
+        cout << name << ":  \t" << value << "   0x" << decimal_to_hex(value) << "   0b" << decimal_to_binary(value, 32) << endl;
     }
 };
 
 void registers_init();
 
 void registers_print();
+
+void PC_print();
 
 Register* get_register_by_name(string name);
 

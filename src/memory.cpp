@@ -34,21 +34,25 @@ void memory_init(ifstream &memfile)
 
 void memory_print()
 {
+    if (memory.size() == 0)
+    {
+        return;
+    }
+
+    cout << "Memory: " << endl;
+    cout << "Address (dec) (hex)     Bytes (dec) (hex) (binary)" << endl;
+
     for (auto it = memory.begin(); it != memory.end();)
     {
-        cout << it->first << ": ";
+        cout << it->first << "  0x" << decimal_to_hex(it->first) << "\t\t\t";
         vector<string> bytes;
 
         for (int i = 0; i < 4; i++)
         {
             if (it != memory.end())
             {
-                bytes.push_back(bitset<8>(it->second).to_string());
+                bytes.push_back(to_string(it->second) + "  0x" + decimal_to_hex(it->second) + "  0b" + decimal_to_binary(it->second, 8) + "\t");
                 ++it;
-            }
-            else
-            {
-                bytes.push_back("        ");
             }
         }
 

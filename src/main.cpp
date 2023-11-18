@@ -46,22 +46,24 @@ int main() {
     instructions_init(asmfile);
 
     while ((pc - startAddr) / 4 < instructions.size()) {
+        cout << endl << endl << "==========================================" << endl << endl << endl;
+        
         Instruction *instr = instructions[(pc - startAddr) / 4];
 
-        cout << "Executing instruction: ";
         instr->print();
+        cout << endl;
 
         instr->exec();
 
-        cout << "Program Counter now at: " << pc << endl;
-        cout << "Registers: " << endl;
+        PC_print();
+        cout << endl;
         registers_print();
-
-        cout << "Memory: " << endl;
+        cout << endl;
         memory_print();
-    }
 
-    // Todo: Add option to print machine code of instructions
+        cout << endl << endl << "==========================================" << endl << endl << endl;
+
+    }
 
     cout << "Program finished :)" << endl;
 

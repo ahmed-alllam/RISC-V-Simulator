@@ -18,7 +18,8 @@ public:
     Instruction(string op, string line) : opcode(op), asm_line(line) {}
 
     void print() {
-        cout << asm_line << endl;
+        cout << "Executing instruction: ";
+        cout << asm_line << "\twith Machine Code: " << get_machine_code() << endl;
     }
 
     virtual void exec() = 0;
