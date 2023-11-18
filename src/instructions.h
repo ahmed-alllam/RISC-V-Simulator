@@ -135,22 +135,23 @@ public:
     static B_Instruction* parse_b_instruction(string line);
 };
 
-// class U_Instruction : public Instruction {
-// private:
-//     uint8_t rd;
-//     int32_t imm;
+class U_Instruction : public Instruction {
+private:
+    uint8_t rd;
+    int32_t imm;
 
-//     void exec_lui();
-//     void exec_auipc();
+    void exec_lui();
+    void exec_auipc();
 
-// public:
-//     U_Instruction(string op, string line, uint8_t rd, int32_t imm) : Instruction(op, line), rd(rd), imm(imm) {}
+public:
+    U_Instruction(string op, string line, uint8_t rd, int32_t imm) : Instruction(op, line), rd(rd), imm(imm) {}
 
-//     void exec() override;
+    void exec() override;
+    string get_machine_code() override;
 
-//     static bool is_u_instruction(string op);
-//     static U_Instruction* parse_u_instruction(string line);
-// };
+    static bool is_u_instruction(string op);
+    static U_Instruction* parse_u_instruction(string line);
+};
 
 void instructions_init(ifstream &asmfile);
 

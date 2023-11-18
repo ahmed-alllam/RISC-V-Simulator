@@ -48,9 +48,9 @@ void instructions_init(ifstream &asmfile)
             else if (B_Instruction::is_b_instruction(opcode)) {
                 instructions.push_back(B_Instruction::parse_b_instruction(line));
             }
-            // else if (U_Instruction::is_u_instruction(opcode)) {
-            //     instructions.push_back(U_Instruction::parse_u_instruction(line));
-            // }
+            else if (U_Instruction::is_u_instruction(opcode)) {
+                instructions.push_back(U_Instruction::parse_u_instruction(line));
+            }
             else
             {
                 cout << "Error: Invalid instruction" << endl;
