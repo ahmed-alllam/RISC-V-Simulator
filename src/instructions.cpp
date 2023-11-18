@@ -12,8 +12,21 @@ using namespace std;
 void instructions_init(ifstream &asmfile)
 {
     string line;
+
     while (getline(asmfile, line))
     {
+        // convert to lowercase
+        for (int i = 0; i < line.length(); i++)
+        {
+            line[i] = tolower(line[i]);
+        }
+
+        // remove comments
+        if (line.find('#') != string::npos)
+        {
+            line = line.substr(0, line.find('#'));
+        }
+
         if (line.empty())
         { // empty line
             continue;
@@ -30,6 +43,8 @@ void instructions_init(ifstream &asmfile)
         { // label
             string label = line.substr(0, line.find(':'));
             labels[label] = instructions.size() * 4 + pc;
+        } else if (line == "ecall" || line == "ebreak" || line == "fence") {
+            instructions.push_back(new HLT_Instruction(line, line));
         }
         else
         {

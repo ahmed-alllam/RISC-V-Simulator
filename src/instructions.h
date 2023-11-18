@@ -153,6 +153,26 @@ public:
     static U_Instruction* parse_u_instruction(string line);
 };
 
+class HLT_Instruction : public Instruction {
+public:
+    HLT_Instruction(string op, string line) : Instruction(op, line) {}
+
+    void exec() override {
+        cout << "HLT... Exiting" << endl;
+        exit(0);
+    }
+
+    string get_machine_code() override {
+        if (opcode == "ecall") {
+            return "00000000000000000000000001110011";
+        } else if (opcode == "ebreak") {
+            return "00000000000100000000000001110011";
+        } else {    // "fence"
+            return "00000000000000000000000000001111";
+        }
+    }
+};
+
 void instructions_init(ifstream &asmfile);
 
 extern vector<Instruction*> instructions;
