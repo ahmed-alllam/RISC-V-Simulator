@@ -275,7 +275,7 @@ I_Instruction *I_Instruction::parse_i_instruction(string line)
     if (opcode == "jalr")
     {
         // try to parse rs1, imm. use if statement to check if the line has (
-        if (line.find('(') != string::npos)
+        if (original_line.find('(') != string::npos)
         {
             imm = stoi(line.substr(0, line.find('(')));
             line = line.substr(line.find('(') + 1);
@@ -320,62 +320,62 @@ I_Instruction *I_Instruction::parse_i_instruction(string line)
 
     if (opcode == "0010011")
     {
-        if (line.find("slli") != string::npos)
+        if (original_line.find("slli") != string::npos)
         {
             funct3 = "001";
         }
-        else if (line.find("srli") != string::npos)
+        else if (original_line.find("srli") != string::npos)
         {
             funct3 = "101";
         }
-        else if (line.find("srai") != string::npos)
+        else if (original_line.find("srai") != string::npos)
         {
             funct3 = "101";
         }
-        else if (line.find("addi") != string::npos)
+        else if (original_line.find("addi") != string::npos)
         {
             funct3 = "000";
         }
-        else if (line.find("slti") != string::npos)
+        else if (original_line.find("slti") != string::npos)
         {
             funct3 = "010";
         }
-        else if (line.find("sltiu") != string::npos)
+        else if (original_line.find("sltiu") != string::npos)
         {
             funct3 = "011";
         }
-        else if (line.find("xori") != string::npos)
+        else if (original_line.find("xori") != string::npos)
         {
             funct3 = "100";
         }
-        else if (line.find("ori") != string::npos)
+        else if (original_line.find("ori") != string::npos)
         {
             funct3 = "110";
         }
-        else if (line.find("andi") != string::npos)
+        else if (original_line.find("andi") != string::npos)
         {
             funct3 = "111";
         }
     }
     else if (opcode == "0000011")
     {
-        if (line.find("lb") != string::npos)
+        if (original_line.find("lb") != string::npos)
         {
             funct3 = "000";
         }
-        else if (line.find("lh") != string::npos)
+        else if (original_line.find("lh") != string::npos)
         {
             funct3 = "001";
         }
-        else if (line.find("lw") != string::npos)
+        else if (original_line.find("lw") != string::npos)
         {
             funct3 = "010";
         }
-        else if (line.find("lbu") != string::npos)
+        else if (original_line.find("lbu") != string::npos)
         {
             funct3 = "100";
         }
-        else if (line.find("lhu") != string::npos)
+        else if (original_line.find("lhu") != string::npos)
         {
             funct3 = "101";
         }
