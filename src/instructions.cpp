@@ -27,6 +27,16 @@ void instructions_init(ifstream &asmfile)
             line = line.substr(0, line.find('#'));
         }
 
+        // remove leading and trailing whitespaces
+        while (line[0] == ' ')
+        {
+            line = line.substr(1);
+        }
+        while (line[line.length() - 1] == ' ')
+        {
+            line = line.substr(0, line.length() - 1);
+        }
+
         if (line.empty())
         { // empty line
             continue;
@@ -71,7 +81,7 @@ void instructions_init(ifstream &asmfile)
             }
             else
             {
-                cout << "Error: Invalid instruction" << endl;
+                cout << "Error: Invalid instruction: " << opcode << endl;
                 exit(1);
             }
         }

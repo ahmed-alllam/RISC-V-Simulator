@@ -17,7 +17,7 @@ void J_Instruction::exec_jal()
         get_register_by_binary(rd)->set_value(pc + 4);
     }
 
-    pc += imm;
+    pc += imm * 4;
 }
 
 void J_Instruction::exec()
@@ -49,7 +49,7 @@ void J_Instruction::label_to_imm()
         }
     }
 
-    imm = (labels[label] - (current_instruction_index * 4 + startAddr)) / 4;
+    imm = (static_cast<int32_t>(labels[label]) - (static_cast<int32_t>(current_instruction_index) * 4 + static_cast<int32_t>(startAddr))) / 4;
 }
 
 string J_Instruction::get_machine_code() {
@@ -81,10 +81,10 @@ J_Instruction* J_Instruction::parse_j_instruction(string line)
 
     string rd_str = line.substr(0, line.find(','));
     line = line.substr(line.find(',') + 1);
-    uint8_t rd = stoi(rd_str.substr(1));
+    uint8_t rd = get_register_by_name(rd_str)->get_name_in_binary();
 
     string label = line.substr(1, line.find('\n'));
     uint32_t imm = -1; // -1 by default, until we find the label
 
-    return new J_Instruction(op, original_line, rd, imm, label);
+    return new J_Instruction("1101111", original_line, rd, imm, label);
 }

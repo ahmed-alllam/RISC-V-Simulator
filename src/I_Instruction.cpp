@@ -159,11 +159,17 @@ void I_Instruction::exec_jalr()
 
     get_register_by_binary(rd)->set_value(pc + 4);
 
-    pc = target_address;
+    pc = target_address * 4;
 }
 
 void I_Instruction::exec()
 {
+
+    if (imm == -1)
+    {
+        label_to_imm();
+    }
+
     if (opcode != "1100111")
         pc += 4;
 
@@ -243,8 +249,36 @@ void I_Instruction::exec()
     }
 }
 
+
+void I_Instruction::label_to_imm()
+{
+    if (labels.find(label) == labels.end())
+    {
+        cout << "Label " << label << " not found" << endl;
+        exit(1);
+    }
+
+    int current_instruction_index;
+
+    for (int i = 0; i < instructions.size(); i++)
+    {
+        if (instructions[i] == this)
+        {
+            current_instruction_index = i;
+            break;
+        }
+    }
+
+    imm = (static_cast<int32_t>(labels[label]) - (static_cast<int32_t>(current_instruction_index) * 4 + static_cast<int32_t>(startAddr))) / 4;
+}
+
 string I_Instruction::get_machine_code()
 {
+    if (imm == -1)
+    {
+        label_to_imm();
+    }
+
     string rs1_bin = bitset<5>(rs1).to_string();
     string rd_bin = bitset<5>(rd).to_string();
     string imm_bin = bitset<12>(imm).to_string();
@@ -271,6 +305,7 @@ I_Instruction *I_Instruction::parse_i_instruction(string line)
     string rs1_str;
     uint8_t rs1;
     int32_t imm;
+    string label = "";
 
     if (opcode == "jalr")
     {
@@ -285,7 +320,18 @@ I_Instruction *I_Instruction::parse_i_instruction(string line)
         {
             rs1_str = line.substr(0, line.find(','));
             line = line.substr(line.find(',') + 1);
-            imm = stoi(line);
+            
+            // check if imm is an int
+            try
+            {
+                imm = stoi(line);
+            }
+            catch (const std::exception &e)
+            {
+                // imm is a label
+                imm = -1;
+                label = line;
+            }
         }
     }
     else if (opcode == "lb" || opcode == "lh" || opcode == "lw" || opcode == "lbu" || opcode == "lhu")
@@ -385,5 +431,5 @@ I_Instruction *I_Instruction::parse_i_instruction(string line)
         funct3 = "000";
     }
 
-    return new I_Instruction(opcode, original_line, funct3, rd, rs1, imm);
+    return new I_Instruction(opcode, original_line, funct3, rd, rs1, imm, label);
 }

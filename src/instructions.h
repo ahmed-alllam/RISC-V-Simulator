@@ -61,6 +61,7 @@ private:
     uint8_t rd;
     uint8_t rs1;
     int32_t imm;
+    string label;
 
     void exec_addi();
     void exec_slti();
@@ -79,7 +80,9 @@ private:
     void exec_jalr();
 
 public:
-    I_Instruction(string op, string line, string f3, uint8_t rd, uint8_t rs1, int32_t imm) : Instruction(op, line), funct3(f3), rd(rd), rs1(rs1), imm(imm) {}
+    I_Instruction(string op, string line, string f3, uint8_t rd, uint8_t rs1, int32_t imm, string label) : Instruction(op, line), funct3(f3), rd(rd), rs1(rs1), imm(imm), label(label) {}
+
+    void label_to_imm();
 
     void exec() override;
     string get_machine_code() override;

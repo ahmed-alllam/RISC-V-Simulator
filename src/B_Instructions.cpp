@@ -138,7 +138,7 @@ void B_Instruction::label_to_imm()
         }
     }
 
-    imm = (labels[label] - (current_instruction_index * 4 + startAddr)) / 4;
+    imm = (static_cast<int32_t>(labels[label]) - (static_cast<int32_t>(current_instruction_index) * 4 + static_cast<int32_t>(startAddr))) / 4;
 }
 
 bool B_Instruction::is_b_instruction(string op)

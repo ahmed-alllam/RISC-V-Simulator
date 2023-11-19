@@ -15,6 +15,24 @@ void memory_init(ifstream &memfile)
     string line;
     while (getline(memfile, line))
     {
+        // move trailing whitespaces
+        while (line[line.length() - 1] == ' ')
+        {
+            line = line.substr(0, line.length() - 1);
+        }
+
+        // remove leading whitespaces
+        while (line[0] == ' ')
+        {
+            line = line.substr(1);
+        }
+
+        // if line is empty, skip
+        if (line.empty())
+        {
+            continue;
+        }
+
         uint32_t addr = stoi(line.substr(0, line.find(' ')));
         uint32_t val = stoi(line.substr(line.find(' ') + 1, line.length() - 1));
 
