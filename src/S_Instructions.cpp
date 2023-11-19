@@ -94,16 +94,16 @@ S_Instruction* S_Instruction::parse_s_instruction(string line)
     string op = line.substr(0, line.find(' '));
     line = line.substr(line.find(' ') + 1);
 
-    string rs1_str = line.substr(0, line.find(','));
+    string rs2_str = line.substr(0, line.find(','));
     line = line.substr(line.find(',') + 1);
-    uint8_t rs1 = get_register_by_name(rs1_str)->get_name_in_binary();
+    uint8_t rs2 = get_register_by_name(rs2_str)->get_name_in_binary();
 
     string imm_str = line.substr(0, line.find('('));
     line = line.substr(line.find('(') + 1);
     int32_t imm = stoi(imm_str);
 
-    string rs2_str = line.substr(0, line.find(')'));
-    uint8_t rs2 = get_register_by_name(rs2_str)->get_name_in_binary();
+    string rs1_str = line.substr(0, line.find(')'));
+    uint8_t rs1 = get_register_by_name(rs1_str)->get_name_in_binary();
 
     string funct3;
 

@@ -16,6 +16,9 @@ void memory_init(ifstream &memfile)
     while (getline(memfile, line))
     {
         // move trailing whitespaces
+
+        line = line.substr(0, line.find('#'));
+
         while (line[line.length() - 1] == ' ')
         {
             line = line.substr(0, line.length() - 1);

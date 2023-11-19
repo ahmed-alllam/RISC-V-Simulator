@@ -1,0 +1,1 @@
+0 6386541   # storing the string "asm" after being converted into ASCII binary and then decimal
