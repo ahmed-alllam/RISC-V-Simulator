@@ -55,38 +55,38 @@ public:
     static R_Instruction* parse_r_instruction(string line);
 };
 
-// class I_Instruction : public Instruction {
-// private:
-//     string funct3;
-//     uint8_t rd;
-//     uint8_t rs1;
-//     int32_t imm;
+class I_Instruction : public Instruction {
+private:
+    string funct3;
+    uint8_t rd;
+    uint8_t rs1;
+    int32_t imm;
 
-//     void exec_addi();
-//     void exec_slti();
-//     void exec_sltiu();
-//     void exec_xori();
-//     void exec_ori();
-//     void exec_andi();
-//     void exec_slli();
-//     void exec_srli();
-//     void exec_srai();
-//     void exec_lb();
-//     void exec_lh();
-//     void exec_lw();
-//     void exec_lbu();
-//     void exec_lhu();
-//     void exec_jalr();
-//     void exec_jal();
+    void exec_addi();
+    void exec_slti();
+    void exec_sltiu();
+    void exec_xori();
+    void exec_ori();
+    void exec_andi();
+    void exec_slli();
+    void exec_srli();
+    void exec_srai();
+    void exec_lb();
+    void exec_lh();
+    void exec_lw();
+    void exec_lbu();
+    void exec_lhu();
+    void exec_jalr();
 
-// public:
-//     I_Instruction(string op, string line, string f3, uint8_t rd, uint8_t rs1, int32_t imm) : Instruction(op, line), funct3(f3), rd(rd), rs1(rs1), imm(imm) {}
+public:
+    I_Instruction(string op, string line, string f3, uint8_t rd, uint8_t rs1, int32_t imm) : Instruction(op, line), funct3(f3), rd(rd), rs1(rs1), imm(imm) {}
 
-//     void exec() override;
+    void exec() override;
+    string get_machine_code() override;
 
-//     static bool is_i_instruction(string op);
-//     static I_Instruction* parse_i_instruction(string line);
-// };
+    static bool is_i_instruction(string op);
+    static I_Instruction* parse_i_instruction(string line);
+};
 
 class S_Instruction : public Instruction {
 private:
@@ -152,6 +152,26 @@ public:
 
     static bool is_u_instruction(string op);
     static U_Instruction* parse_u_instruction(string line);
+};
+
+class J_Instruction : public Instruction {
+private:
+    uint8_t rd;
+    int32_t imm;
+    string label;
+
+    void exec_jal();
+    
+public:
+    J_Instruction(string op, string line, uint8_t rd, int32_t imm, string label) : Instruction(op, line), rd(rd), imm(imm), label(label) {}
+
+    void exec() override;
+    string get_machine_code() override;
+
+    void label_to_imm();
+
+    static bool is_j_instruction(string op);
+    static J_Instruction* parse_j_instruction(string line);
 };
 
 class HLT_Instruction : public Instruction {

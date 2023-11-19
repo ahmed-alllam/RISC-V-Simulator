@@ -21,37 +21,45 @@ void R_Instruction::exec_sub()
 
 void R_Instruction::exec_sll()
 {
-    get_register_by_binary(rd)->set_value(get_register_by_binary(rs1)->get_value() << (get_register_by_binary(rs2)->get_value() & 0x1F));
+    get_register_by_binary(rd)->set_value(get_register_by_binary(rs1)->get_value() << get_register_by_binary(rs2)->get_value());
 }
 
 void R_Instruction::exec_slt()
 {
-    get_register_by_binary(rd)->set_value(get_register_by_binary(rs1)->get_value() < get_register_by_binary(rs2)->get_value());
+    int32_t rs1_value = get_register_by_binary(rs1)->get_value();
+    int32_t rs2_value = get_register_by_binary(rs2)->get_value();
+    get_register_by_binary(rd)->set_value(rs1_value < rs2_value ? 1 : 0);
 }
 
 void R_Instruction::exec_sltu()
 {
-    get_register_by_binary(rd)->set_value(static_cast<uint32_t>(get_register_by_binary(rs1)->get_value()) < static_cast<uint32_t>(get_register_by_binary(rs2)->get_value()));
-}
-
-void R_Instruction::exec_xor()
-{
-    get_register_by_binary(rd)->set_value(get_register_by_binary(rs1)->get_value() ^ get_register_by_binary(rs2)->get_value());
+    uint32_t rs1_value = get_register_by_binary(rs1)->get_value();
+    uint32_t rs2_value = get_register_by_binary(rs2)->get_value();
+    get_register_by_binary(rd)->set_value(rs1_value < rs2_value ? 1 : 0);
 }
 
 void R_Instruction::exec_srl()
 {
-    get_register_by_binary(rd)->set_value(static_cast<uint32_t>(get_register_by_binary(rs1)->get_value()) >> (get_register_by_binary(rs2)->get_value() & 0x1F));
+    uint32_t rs1_value = get_register_by_binary(rs1)->get_value();
+    uint32_t rs2_value = get_register_by_binary(rs2)->get_value();
+    get_register_by_binary(rd)->set_value(rs1_value >> rs2_value);
 }
 
 void R_Instruction::exec_sra()
 {
-    get_register_by_binary(rd)->set_value(get_register_by_binary(rs1)->get_value() >> (get_register_by_binary(rs2)->get_value() & 0x1F));
+    int32_t rs1_value = get_register_by_binary(rs1)->get_value();
+    uint32_t rs2_value = get_register_by_binary(rs2)->get_value();
+    get_register_by_binary(rd)->set_value(rs1_value >> (rs2_value & 0x1F));
 }
 
 void R_Instruction::exec_or()
 {
     get_register_by_binary(rd)->set_value(get_register_by_binary(rs1)->get_value() | get_register_by_binary(rs2)->get_value());
+}
+
+void R_Instruction::exec_xor()
+{
+    get_register_by_binary(rd)->set_value(get_register_by_binary(rs1)->get_value() ^ get_register_by_binary(rs2)->get_value());
 }
 
 void R_Instruction::exec_and()
@@ -116,7 +124,8 @@ void R_Instruction::exec()
     }
 }
 
-string R_Instruction::get_machine_code() {
+string R_Instruction::get_machine_code()
+{
     string rs1_bin = bitset<5>(rs1).to_string();
     string rs2_bin = bitset<5>(rs2).to_string();
     string rd_bin = bitset<5>(rd).to_string();
@@ -124,13 +133,12 @@ string R_Instruction::get_machine_code() {
     return funct7 + rs2_bin + rs1_bin + funct3 + rd_bin + opcode;
 }
 
-
 bool R_Instruction::is_r_instruction(string op)
 {
     return op == "add" || op == "sub" || op == "sll" || op == "slt" || op == "sltu" || op == "xor" || op == "srl" || op == "sra" || op == "or" || op == "and";
 }
 
-R_Instruction* R_Instruction::parse_r_instruction(string line)
+R_Instruction *R_Instruction::parse_r_instruction(string line)
 {
     string original_line = line.substr(0, line.find('#')); // remove comments
 
@@ -182,7 +190,7 @@ R_Instruction* R_Instruction::parse_r_instruction(string line)
     {
         funct3 = "101";
     }
-    else if (opcode == "sra") 
+    else if (opcode == "sra")
     {
         funct3 = "101";
         funct7 = "0100000";
